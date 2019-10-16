@@ -60,8 +60,11 @@ jobs:
       - name: Build
         run: make deb -j2
         working-directory: ./bin
-      - name: Copy artificats
-        run: mkdir -p /tmp/artifacts/ubuntu-xenial && cp bin/clementine_*.deb /tmp/artifacts/ubuntu-xenial/
+      - name: Copy artifacts
+        run: |
+          mkdir -p /tmp/artifacts/ubuntu-xenial
+          cp bin/clementine_*.deb /tmp/artifacts/ubuntu-xenial/
+          find /tmp/artifacts
       - uses: actions/upload-artifact@master
         with:
           name: deb
