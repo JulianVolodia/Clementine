@@ -4,7 +4,8 @@ on: [push]
 jobs:
   build:
     name: Build Ubuntu Xenial
-    runs-on: ubuntu:xenial
+    runs-on: ubuntu:latest
+    container: ubuntu:xenial
     steps:
       - name: Install Dependencies
         run: >
