@@ -1,0 +1,65 @@
+name: Build
+on: [push]
+
+jobs:
+  build:
+    name: Build Ubuntu Xenial
+    runs-on: ubuntu:xenial
+    steps:
+      - name: Install Dependencies
+        run: >
+          apt-get update && apt-get install -y
+            cmake
+            fakeroot
+            gettext
+            git
+            libasound2-dev
+            libboost-dev
+            libboost-serialization-dev
+            libcdio-cdda1
+            libcdio-dev
+            libchromaprint-dev
+            libcrypto++-dev
+            libdbus-1-dev
+            libfftw3-dev
+            libglew1.5-dev
+            libgpod-dev
+            libgstreamer-plugins-base1.0-dev
+            libgstreamer1.0-dev
+            liblastfm-dev
+            libmtp-dev
+            libmygpo-qt-dev
+            libplist-dev
+            libprotobuf-dev
+            libpulse-dev
+            libqca2-dev
+            libqca2-plugin-ossl
+            libqjson-dev
+            libqt4-dev
+            libqt4-opengl-dev
+            libqtwebkit-dev
+            libsparsehash-dev
+            libsqlite3-dev
+            libtag1-dev
+            libusbmuxd-dev
+            protobuf-compiler
+            qt4-dev-tools
+            ssh
+      - uses: actions/checkout@v1
+      - name: Configure build
+        run: >
+          cmake ..
+          -DWITH_DEBIAN=ON
+          -DDEB_ARCH=amd64
+          -DDEB_DIST=xenial
+          -DFORCE_GIT_VERSION=
+          -DENABLE_SPOTIFY_BLOB=OFF
+        working-directory: ./bin
+      - name: Build
+        run: make deb -j2
+      - name: Copy artificats
+        run: mkdir -p /tmp/artifacts/ubuntu-xenial && cp bin/clementine_*.deb /tmp/artifacts/ubuntu-xenial/
+      - uses: actions/upload-artifact@master
+        with:
+          name: deb
+          path: /tmp/artifacts/ubuntu-xenial
