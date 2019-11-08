@@ -486,7 +486,7 @@ jobs:
             dpkg -i ~/libtool.deb
       - run:
           name: Clone dependencies repo
-          command: git clone https://github.com/clementine-player/Dependencies /src
+          command: git clone https://github.com/JulianVolodia/Dependencies /src
       - run:
           name: Create target directory
           command: mkdir -p /target/stow
